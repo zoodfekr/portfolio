@@ -10,7 +10,7 @@ import Appcontext from "../../context/Context";
 
 const Certificates = (props) => {
     const [checked, setChecked] = useState(false);
-    const { mode,theme } = useContext(Appcontext);
+    const { theme } = useContext(Appcontext);
     useEffect(() => {
         setTimeout(() => setChecked(true), 250)
         return () => setChecked(false);

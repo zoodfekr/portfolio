@@ -12,7 +12,13 @@ const TabPanel = (props) => {
             {...others}
         >
             {value === index && (
-                <Box sx={{height:"100vh" }}>
+                <Box
+                    className="scroll-touch"
+                    sx={{
+                        minHeight: { xs: "100dvh", md: "100vh" },
+                        height: { xs: "auto", md: "100vh" },
+                    }}
+                >
                   {children}
                 </Box>
             )}

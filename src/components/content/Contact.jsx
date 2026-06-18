@@ -1,228 +1,285 @@
-import { Box, Button, Card, CardActions, CardContent, Grid, TextField, Typography } from "@mui/material";
+import { Box, Card, Typography } from "@mui/material";
+import Grid from "@mui/material/Unstable_Grid2";
 import { Helmet } from "react-helmet-async";
-import CustomDivider from "../common/CustomDivider";
-import bg12 from '../../assets/bg12.jpg';
-import Appcontext from "../../context/Context";
-import { useContext, useRef, useState } from "react";
-import { yupSchema } from "../constants/yup";
-import { useFormik } from 'formik';
-import ReCAPTCHA from "react-google-recaptcha";
-import emailjs from '@emailjs/browser';
-import { ToastContainer, toast } from 'react-toastify';
-import { BsDisplay } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { GRADIENT } from "../../container/theme";
+import PageHeader from "../common/PageHeader";
+import {
+    FaEnvelope,
+    FaGithub,
+    FaLinkedinIn,
+    FaMapMarkerAlt,
+    FaTelegram,
+    FaSkype,
+} from "react-icons/fa";
+import { BsChatDots } from "react-icons/bs";
 
+const contactInfo = [
+    {
+        icon: <FaEnvelope />,
+        label: "ایمیل",
+        value: "Zoodfekr.r@gmail.com",
+        href: "mailto:Zoodfekr.r@gmail.com",
+        color: "#7C5CFF",
+    },
+    {
+        icon: <FaTelegram />,
+        label: "تلگرام",
+        value: "@ramin",
+        href: "https://t.me/",
+        color: "#22D3EE",
+    },
+    {
+        icon: <FaLinkedinIn />,
+        label: "لینکدین",
+        value: "ramin-zoodfekr",
+        href: "https://www.linkedin.com/in/ramin-zoodfekr-08b16b233/",
+        color: "#5B8CFF",
+    },
+    {
+        icon: <FaGithub />,
+        label: "گیتهاب",
+        value: "zoodfekr",
+        href: "https://github.com/zoodfekr",
+        color: "#A78BFA",
+    },
+    {
+        icon: <FaSkype />,
+        label: "اسکایپ",
+        value: "ramin-zoodfekr",
+        href: "https://join.skype.com/invite/MdJneJzpoQ6i",
+        color: "#34D399",
+    },
+    {
+        icon: <FaMapMarkerAlt />,
+        label: "موقعیت",
+        value: "تهران، ایران",
+        href: null,
+        color: "#FBBF24",
+    },
+];
 
 const Contact = (props) => {
+    const [checked, setChecked] = useState(false);
 
-    const { mode } = useContext(Appcontext);
-
-    let captcha = useRef(null);
-
-    const formik = useFormik({
-        initialValues: {
-            firstname: '',
-            lastname: '',
-            email: '',
-            text: '',
-            recaptcha: ""
-        },
-        validationSchema: yupSchema,
-        onSubmit: (values) => {
-            sendEmail(values);
-        },
-    });
-
-
-
-    const sendEmail = (values) => {
-        const id = toast.loading("در حال ارسال پیام")
-        emailjs.send('service_hnwj5kb', 'template_81k84fq', values, '574znhgJfYqReJ0Ml')
-            .then((result) => {
-                console.log(result.text);
-                toast.update(id, { render: "پیام شما ارسال شد", type: "success", isLoading: false, autoClose: 5000 });
-            })
-            .catch((error) => {
-                console.log(error.text);
-                toast.update(id, { render: "خطا در ارسال پیام", type: "error", isLoading: false, autoClose: 5000 });
-            });
-        formik.resetForm();
-    };
+    useEffect(() => {
+        const t = setTimeout(() => setChecked(true), 150);
+        return () => {
+            clearTimeout(t);
+            setChecked(false);
+        };
+    }, []);
 
     return (
-        <>
-
-
-
-
+        <Box
+            className="mesh-bg scroll-touch"
+            sx={{
+                width: "100%",
+                minHeight: { xs: "100dvh", md: "auto" },
+                height: { md: "100vh" },
+                overflowY: { md: "auto" },
+                overflowX: "hidden",
+                px: { xs: 2.5, sm: 4, md: 6 },
+                pt: { xs: "calc(5rem + env(safe-area-inset-top))", md: 5 },
+                pb: { xs: 6, md: 5 },
+                position: "relative",
+            }}
+        >
             <Helmet>
-                <title>
-                    {props.helmet}
-                </title>
+                <title>{props.helmet} | رامین زودفکر</title>
             </Helmet>
 
-            <Box sx={{
-                backgroundRepeat: "no-repeat",
-                backgroundPosition: "center",
-                backgroundSize: "cover",
-                backgroundImage: `url(${bg12})`,
-                position: "relative",
-                height: "100vh",
-                width: "100%",
-                overflowX: "hidden",
-                overflowY: "auto",
-            }}>
+            <Box
+                aria-hidden
+                sx={{
+                    position: "absolute",
+                    inset: 0,
+                    zIndex: 0,
+                    opacity: 0.35,
+                    pointerEvents: "none",
+                    backgroundImage:
+                        "linear-gradient(rgba(124,92,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,0.05) 1px, transparent 1px)",
+                    backgroundSize: "46px 46px",
+                    maskImage:
+                        "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+                    WebkitMaskImage:
+                        "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+                }}
+            />
 
-                <CustomDivider color={"skyblue"} linecolor={"skyblue"} textAlign={"center"}>ارتباط با من</CustomDivider>
+            <Box sx={{ position: "relative", zIndex: 1, maxWidth: 1100, mx: "auto" }}>
+                <PageHeader
+                    icon={<BsChatDots />}
+                    subtitle="در دسترس برای همکاری"
+                    title="ارتباط با من"
+                />
 
+                <Grid container spacing={3} alignItems="stretch">
+                    {/* ---------- Left: intro / CTA ---------- */}
+                    <Grid xs={12} md={5}>
+                        <Card
+                            sx={{
+                                p: { xs: 3, md: 4 },
+                                borderRadius: 4,
+                                height: "100%",
+                                display: "flex",
+                                flexDirection: "column",
+                                justifyContent: "center",
+                                animation: "fadeUp .6s ease .1s both",
+                            }}
+                        >
+                            <Box
+                                sx={{
+                                    width: 56,
+                                    height: 56,
+                                    display: "flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    borderRadius: "16px",
+                                    fontSize: 28,
+                                    color: "#fff",
+                                    background: GRADIENT,
+                                    boxShadow:
+                                        "0 14px 30px rgba(124,92,255,0.4)",
+                                    mb: 2.5,
+                                }}
+                            >
+                                <BsChatDots />
+                            </Box>
 
-                <Grid container >
+                            <Typography
+                                variant="h5"
+                                sx={{ fontWeight: 800, mb: 1.5 }}
+                            >
+                                بیایید گفتگو کنیم
+                            </Typography>
+                            <Typography
+                                variant="body2"
+                                color="text.secondary"
+                                sx={{ lineHeight: 2, mb: 3 }}
+                            >
+                                برای همکاری، پروژه یا هر سوال دیگری از طریق
+                                راه‌های ارتباطی زیر با من در تماس باشید. معمولاً
+                                در کمتر از ۲۴ ساعت پاسخ می‌دهم.
+                            </Typography>
 
-                    <Grid xs={12} sx={12} md={8} lg={6} sx={{ p: 4 }}>
-                        <Card sx={{
-                            background: mode ? "linear-gradient(45deg, rgba(255,255,255,0.7) 0%, rgba(0,0,255,0.4) 100%)" : "linear-gradient(45deg, rgba(255,255,255,0.2) 0%, rgba(0,0,255,0.2) 100%)",
-                            borderRadius: "25px",
-                            backdropFilter: "blur(5px)"
-                        }}>
-                            <form onSubmit={formik.handleSubmit}>
-                                <CardContent>
+                            <Box
+                                sx={{
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    gap: 1,
+                                    px: 2,
+                                    py: 0.8,
+                                    borderRadius: 50,
+                                    border: "1px solid",
+                                    borderColor: "divider",
+                                    backgroundColor: "rgba(52,211,153,0.08)",
+                                    alignSelf: "flex-start",
+                                }}
+                            >
+                                <Box
+                                    sx={{
+                                        width: 8,
+                                        height: 8,
+                                        borderRadius: "50%",
+                                        background: "#34D399",
+                                        boxShadow:
+                                            "0 0 0 4px rgba(52,211,153,0.25)",
+                                    }}
+                                />
+                                <Typography variant="body2" color="text.secondary">
+                                    آماده برای همکاری
+                                </Typography>
+                            </Box>
+                        </Card>
+                    </Grid>
 
-
-                                    <Grid container sx={{}}>
-                                        <Grid xs={12} sm={12} md={6} sx={{ mt: 2, px: 1 }}>
-                                            <TextField
-                                                id="firstname"
-                                                name="firstname"
-                                                label="نام"
-                                                value={formik.values.firstname}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.firstname && Boolean(formik.errors.firstname)}
-                                                helperText={formik.touched.firstname && formik.errors.firstname}
-                                                dir="rtl"
-                                                fullWidth
-                                                size="small"
-                                                color="danger"
-                                                variant="outlined"
-                                            />
-
-
-                                        </Grid>
-
-                                        <Grid xs={12} sm={12} md={6} sx={{ mt: 2, px: 1 }}>
-                                            <TextField
-                                                id="lastname"
-                                                name="lastname"
-                                                label="نام خانوادگی"
-                                                value={formik.values.lastname}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.lastname && Boolean(formik.errors.lastname)}
-                                                helperText={formik.touched.lastname && formik.errors.lastname}
-                                                dir="rtl"
-                                                fullWidth
-                                                size="small"
-                                                color="danger"
-                                                variant="outlined"
-                                            />
-                                        </Grid>
-
-                                        <Grid xs={12} sm={12} md={12} sx={{ mt: 2, px: 1 }}>
-                                            <TextField
-                                                id="email"
-                                                name="email"
-                                                label="ایمیل"
-                                                value={formik.values.email}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.email && Boolean(formik.errors.email)}
-                                                helperText={formik.touched.email && formik.errors.email}
-                                                dir="rtl"
-                                                fullWidth
-                                                size="small"
-                                                color="danger"
-                                                variant="outlined"
-                                            />                                         </Grid>
-
-                                        <Grid xs={12} sm={12} md={12} sx={{ mt: 2, px: 1 }}>
-                                            <TextField
-                                                id="text"
-                                                name="text"
-                                                label="متن"
-                                                value={formik.values.text}
-                                                onChange={formik.handleChange}
-                                                error={formik.touched.text && Boolean(formik.errors.text)}
-                                                helperText={formik.touched.text && formik.errors.text}
-                                                dir="rtl"
-                                                fullWidth
-                                                size="small"
-                                                color="danger"
-                                                variant="outlined"
-                                                multiline
-                                                rows={6}
-                                            />                                         </Grid>
-                                    </Grid>
-                                </CardContent>
-
-                                <CardActions sx={{ alignItems: "start", flexDirection: "column", px: 2.8 }} >
-
-
-
-                                    <ReCAPTCHA
-                                        ref={captcha}
-                                        sitekey="6Ldga0EmAAAAABR7Hre7Wp5TkKNmbJOyv33N5Elt"
-                                        theme={mode ? "light" : "dark"}
-                                        hl="fa"
-                                        onChange={(value) => {
-                                            formik.setFieldValue(
-                                                "recaptcha",
-                                                value
-                                            );
+                    {/* ---------- Right: contact cards ---------- */}
+                    <Grid xs={12} md={7}>
+                        <Grid container spacing={2}>
+                            {contactInfo.map((info, i) => {
+                                const inner = (
+                                    <Card
+                                        className={info.href ? "scale" : ""}
+                                        sx={{
+                                            p: 2,
+                                            borderRadius: 3,
+                                            display: "flex",
+                                            alignItems: "center",
+                                            gap: 1.75,
+                                            height: "100%",
+                                            opacity: checked ? 1 : 0,
+                                            transform: checked
+                                                ? "none"
+                                                : "translateY(20px)",
+                                            transition: `all .5s ease ${i * 80}ms`,
                                         }}
-                                        data-size="compact" />
-
-
-
-
-                                    {formik.errors.recaptcha &&
-                                        formik.touched.recaptcha && (
+                                    >
+                                        <Box
+                                            sx={{
+                                                width: 46,
+                                                height: 46,
+                                                flexShrink: 0,
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "center",
+                                                borderRadius: "12px",
+                                                color: "#fff",
+                                                fontSize: 18,
+                                                background: `linear-gradient(135deg, ${info.color}, ${info.color}99)`,
+                                                boxShadow: `0 8px 18px ${info.color}33`,
+                                            }}
+                                        >
+                                            {info.icon}
+                                        </Box>
+                                        <Box sx={{ minWidth: 0 }}>
                                             <Typography
                                                 variant="caption"
-                                                color="error"
+                                                color="text.secondary"
                                             >
-                                                {formik.errors.recaptcha}
+                                                {info.label}
                                             </Typography>
+                                            <Typography
+                                                sx={{
+                                                    fontWeight: 600,
+                                                    fontSize: 14,
+                                                    wordBreak: "break-word",
+                                                }}
+                                            >
+                                                {info.value}
+                                            </Typography>
+                                        </Box>
+                                    </Card>
+                                );
+
+                                return (
+                                    <Grid key={i} xs={12} sm={6}>
+                                        {info.href ? (
+                                            <Box
+                                                component="a"
+                                                href={info.href}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                sx={{
+                                                    display: "block",
+                                                    height: "100%",
+                                                    textDecoration: "none",
+                                                    color: "inherit",
+                                                }}
+                                            >
+                                                {inner}
+                                            </Box>
+                                        ) : (
+                                            inner
                                         )}
-
-                                    <Button
-                                        type="submit"
-                                        color="success"
-                                        variant="contained"
-                                        sx={{ mt: 2 }}
-                                        fullWidth
-                                    >
-                                        ارسال کن
-                                    </Button>
-
-                                </CardActions>
-                            </form>
-
-                        </Card>
-
-
+                                    </Grid>
+                                );
+                            })}
+                        </Grid>
                     </Grid>
                 </Grid>
-
-
-
-
-
-
-
-
-
-
-
-
-            </Box >
-
-        </>
-    )
+            </Box>
+        </Box>
+    );
 };
 export default Contact;

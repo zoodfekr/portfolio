@@ -1,133 +1,177 @@
+import { Box, Card, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
-import { Avatar, Box, Card, Chip, Divider, Typography } from "@mui/material";
-import devinfo from '../../assets/ramin.jpg';
-import Devinfo from './components/Devinfo';
-import CustomDivider from "../common/CustomDivider";
-import Skills from "./components/Skills";
-import { BsCodeSlash } from "react-icons/bs";
 import { Helmet } from "react-helmet-async";
-import Tooltip from '@mui/material/Tooltip';
-import CountUp from 'react-countup';
-import Slide from '@mui/material/Slide';
-import { useContext, useEffect, useState } from "react";
-import { aboutpage_tooltip, slider_image } from '../constants/appdata';
-import bg3 from '../../assets/bg3.jpg';
-import SeftTimeline from "./components/Timeline";
-import Appcontext from "../../context/Context";
-
+import Devinfo from "./components/Devinfo";
+import Skills from "./components/Skills";
+import { BsInfoCircleFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { slider_image } from "../constants/appdata";
+import PageHeader from "../common/PageHeader";
 
 const Aboutpage = () => {
     const [checked, setChecked] = useState(false);
-    const { mode, theme } = useContext(Appcontext);
 
     useEffect(() => {
-        setTimeout(() => setChecked(true), 500)
-        return () => setChecked(false);
+        const t = setTimeout(() => setChecked(true), 150);
+        return () => {
+            clearTimeout(t);
+            setChecked(false);
+        };
     }, []);
 
-
-
     return (
-        <Card sx={{
-            // backgroundImage: `url(${bg3})`,
-            // backgroundRepeat: "no-repeat",
-            // backgroundPosition: "center",
-            // backgroundSize: "cover",
-            height: "100vh",
-            width: "100%",
-            overflowX: "hidden",
-            overflowY: "auto",
-            backgroundColor: theme.palette.background.main,
-
-        }}>
-
-
-
+        <Box
+            className="mesh-bg scroll-touch"
+            sx={{
+                width: "100%",
+                minHeight: { xs: "100dvh", md: "auto" },
+                height: { md: "100vh" },
+                overflowY: { md: "auto" },
+                overflowX: "hidden",
+                px: { xs: 2.5, sm: 4, md: 6 },
+                pt: { xs: "calc(5rem + env(safe-area-inset-top))", md: 5 },
+                pb: { xs: 6, md: 5 },
+                position: "relative",
+            }}
+        >
             <Helmet>
-                <title>  درباره من </title>
+                <title> درباره من | رامین زودفکر </title>
             </Helmet>
 
-            <Grid container sx={{ display: "flex", flexDirection: "column" }}>
+            {/* subtle grid overlay (matches homepage) */}
+            <Box
+                aria-hidden
+                sx={{
+                    position: "absolute",
+                    inset: 0,
+                    zIndex: 0,
+                    opacity: 0.35,
+                    pointerEvents: "none",
+                    backgroundImage:
+                        "linear-gradient(rgba(124,92,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(124,92,255,0.05) 1px, transparent 1px)",
+                    backgroundSize: "46px 46px",
+                    maskImage:
+                        "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+                    WebkitMaskImage:
+                        "radial-gradient(ellipse at center, black 30%, transparent 75%)",
+                }}
+            />
 
+            <Box sx={{ position: "relative", zIndex: 1, maxWidth: 1100, mx: "auto" }}>
+                <PageHeader
+                    icon={<BsInfoCircleFill />}
+                    subtitle="معرفی کوتاه"
+                    title="درباره من"
+                />
 
+                {/* ---------- Bio ---------- */}
+                <Card
+                    sx={{
+                        p: { xs: 3, md: 4 },
+                        borderRadius: 4,
+                        mb: 6,
+                        animation: "fadeUp .6s ease .1s both",
+                    }}
+                >
+                    <Typography variant="body1" sx={{ mb: 3, lineHeight: 2.2 }}>
+                        من رامین زودفکر هستم، یک توسعه‌دهنده فرانت‌اند با علاقه‌مندی
+                        به ساخت رابط‌های کاربری مدرن، سریع و کاربرپسند. تجربه‌ام شامل
+                        کار با React، TypeScript و ابزارهای مدرن طراحی است و همیشه
+                        دنبال یادگیری چیزهای جدید و بهبود کیفیت محصولم هستم.
+                    </Typography>
 
-
-                <Slide direction="down" in={checked}>
-                    <Box sx={{}}>
-                        <CustomDivider textAlign={"center"} linecolor={"green"} color={"green"}> توسعه دهنده فرانت اند </CustomDivider>
-                    </Box>
-                </Slide>
-
-                <Box sx={{ display: "flex", px: 4,justifyContent:"space-evenly" }}>
-
-                    <Grid item
-                        xs={12}
-                        sm={8}
-                        md={8}
-                        lg={6}
-                        xl={6}>
-                        <Devinfo>نام : رامین</Devinfo>
-                        <Devinfo>نام خانوادگی : زودفکر</Devinfo>
-                        <Devinfo>ایمیل : Zoodfekr.r@gmail.com</Devinfo>
-                        <Devinfo>سن : <CountUp end={27} start={0} duration={5} /></Devinfo>
-                        <Devinfo>متولد : تهران</Devinfo>
-                        <Devinfo>تحصیلات : کارشناسی (مخابرات)</Devinfo>
-
+                    <Grid container spacing={1.5}>
+                        <Grid xs={12} sm={6}>
+                            <Devinfo label="نام" value="رامین" />
+                        </Grid>
+                        <Grid xs={12} sm={6}>
+                            <Devinfo label="نام خانوادگی" value="زودفکر" />
+                        </Grid>
+                        <Grid xs={12} sm={6}>
+                            <Devinfo label="ایمیل" value="Zoodfekr.r@gmail.com" />
+                        </Grid>
+                        <Grid xs={12} sm={6}>
+                            <Devinfo label="تحصیلات" value="کارشناسی مخابرات" />
+                        </Grid>
+                        <Grid xs={12} sm={6}>
+                            <Devinfo label="شهر" value="تهران" />
+                        </Grid>
+                        <Grid xs={12} sm={6}>
+                            <Devinfo label="تخصص" value="فرانت‌اند" />
+                        </Grid>
                     </Grid>
+                </Card>
 
-                    <Box sx={{ pt: 5 }}>
-                        <Avatar className="avatartest" variant="rounded" alt="Remy Sharp" src={devinfo} sx={{
-                            display: {
-                                xl: "block",
-                                lg: "block",
-                                md: "block",
-                                sm: "none",
-                                xs: "none",
-                            },
-                            width: 300,
-                            height: 300,
-                            // margin: "0 auto",
-                        }} />
-                    </Box>
-
+                {/* ---------- Skills ---------- */}
+                <Box sx={{ mb: 6, animation: "fadeUp .6s ease .15s both" }}>
+                    <Skills />
                 </Box>
 
+                {/* ---------- Certificates ---------- */}
+                <Box sx={{ mb: 2 }}>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1,
+                            mb: 2,
+                        }}
+                    >
+                        <Typography
+                            variant="h5"
+                            sx={{
+                                fontWeight: 800,
+                                fontSize: { xs: "1.2rem", md: "1.5rem" },
+                                className: "gradient-text",
+                            }}
+                        >
+                            دوره‌های طی‌شده
+                        </Typography>
+                        <Box
+                            sx={{
+                                flex: 1,
+                                height: 1,
+                                background:
+                                    "linear-gradient(90deg, rgba(124,92,255,0.35), transparent)",
+                                borderRadius: 1,
+                            }}
+                        />
+                    </Box>
 
-
-
-
-
-
-
-
-
-            </Grid>
-
-            {/* skills */}
-            <Grid container>
-                <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-                    <CustomDivider linecolor={"purple"} color={"purple"} textAlign="center" icon={<BsCodeSlash />}>مهارت های من</CustomDivider>
-                    <Skills></Skills>
-                </Grid>
-            </Grid>
-
-
-            <Grid container >
-                <Grid item xs={12}>
-                    <CustomDivider color={"red"} textAlign="center" linecolor={"red"}>دوره های طی شده</CustomDivider>
-                </Grid>
-                {slider_image.map((value, index) => (
-                    <Slide in={checked} direction="up" style={{ transitionDelay: checked ? `${(index * 250)}ms` : "0ms" }} >
-                        <Grid key={index} item xs={12} sm={6} md={6} lg={4} xl={4} sx={{ my: 2, display: "flex", justifyContent: "center" }}>
-                            <Box component="div" sx={{ p: 3 }}>
-                                <Box component="img" sx={{ height: "auto", maxWidth: "400px", width: 1 }} src={value.img} className="scale" />
-                            </Box>
-                        </Grid>
-                    </Slide>
-                ))}
-            </Grid>
-        </Card >
-    )
+                    <Grid container spacing={2}>
+                        {slider_image.map((value, index) => (
+                            <Grid key={index} xs={12} sm={6} md={4}>
+                                <Card
+                                    className="scale"
+                                    sx={{
+                                        p: 1.5,
+                                        borderRadius: 3,
+                                        overflow: "hidden",
+                                        opacity: checked ? 1 : 0,
+                                        transform: checked
+                                            ? "none"
+                                            : "translateY(24px)",
+                                        transition: `all .5s ease ${index * 120}ms`,
+                                    }}
+                                >
+                                    <Box
+                                        component="img"
+                                        src={value.img}
+                                        sx={{
+                                            width: "100%",
+                                            maxHeight: 200,
+                                            objectFit: "contain",
+                                            borderRadius: 2,
+                                        }}
+                                    />
+                                </Card>
+                            </Grid>
+                        ))}
+                    </Grid>
+                </Box>
+            </Box>
+        </Box>
+    );
 };
 
 export default Aboutpage;

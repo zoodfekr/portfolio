@@ -1,13 +1,27 @@
-import { Typography } from "@mui/material";
-import { MdArrowBackIosNew } from "react-icons/md";
+import { Box, Typography } from "@mui/material";
 
-const Devinfo = ({children}) => {
+const Devinfo = ({ label, value }) => {
     return (
-        <Typography  className="mr-2" dir="rtl" color={"text.primary"} fontFamily={"vazir"} fontSize={20}
-            sx={{ mt: 2 , mr:2 }}>
-            <MdArrowBackIosNew color="red" className="mx-2"></MdArrowBackIosNew>
-            {children}
-        </Typography>
-    )
+        <Box
+            sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                py: 1.2,
+                px: 2,
+                borderRadius: 2,
+                backgroundColor: "rgba(124,92,255,0.05)",
+                border: "1px solid",
+                borderColor: "divider",
+            }}
+        >
+            <Typography color="text.secondary" sx={{ fontSize: 14 }}>
+                {label}
+            </Typography>
+            <Typography sx={{ fontWeight: 600, fontSize: 15 }} color="text.primary">
+                {value}
+            </Typography>
+        </Box>
+    );
 };
 export default Devinfo;

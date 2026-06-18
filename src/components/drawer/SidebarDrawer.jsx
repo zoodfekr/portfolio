@@ -13,7 +13,9 @@ const SidebarDrawer = () => {
             open={drawershow}
             sx={{
                 '& .MuiDrawer-paper': {
-                    width: 250
+                    width: { xs: '82vw', sm: 320 },
+                    maxWidth: 340,
+                    boxSizing: 'border-box',
                 },
                 display: {
                     xs: "block",

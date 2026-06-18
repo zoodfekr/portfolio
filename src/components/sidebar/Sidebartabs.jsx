@@ -1,95 +1,102 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import { Box, Typography } from "@mui/material";
 import { SiHomeadvisor } from "react-icons/si";
-import { TbMessages } from "react-icons/tb";
 import { FaChalkboardTeacher } from "react-icons/fa";
-import { BsFillPersonBadgeFill, BsPersonWorkspace, BsPersonBoundingBox } from "react-icons/bs";
-
-
-
-import { grey } from "@mui/material/colors";
-import { useContext } from 'react';
-import Appcontext from '../../context/Context';
-
+import { BsFillPersonBadgeFill, BsPersonWorkspace } from "react-icons/bs";
+import { useContext } from "react";
+import Appcontext from "../../context/Context";
+import { GRADIENT } from "../../container/theme";
 
 function Sidebartabs() {
+    const { pagenumber, setpagenumber, setdrawershow } = useContext(Appcontext);
 
-  const { pagenumber, handleChange, setdrawershow, theme } = useContext(Appcontext);
+    const tabsdata = [
+        { label: "صفحه اصلی", icon: <SiHomeadvisor /> },
+        { label: "درباره من", icon: <BsFillPersonBadgeFill /> },
+        { label: "نمونه کارها", icon: <BsPersonWorkspace /> },
+        { label: "ارتباط با من", icon: <FaChalkboardTeacher /> },
+    ];
 
-  const iconstyle = { fontSize: "25px" };
-  const tabclass = ' d-flex justify-content-start mx-2 px-3';
-
-  const tabProps = (index) => {
-    return {
-      id: `sidebar-tab-${index}`,
-      "aria-controls": `tabpanel-${index}`,
-
+    const handleClick = (index) => {
+        setpagenumber(index);
+        setdrawershow(false);
     };
-  };
 
-  const tabsdata = [
-    { label: "صفحه اصلی", icon: < SiHomeadvisor style={iconstyle} ></SiHomeadvisor>, ...tabProps(0) },
-    { label: "درباره من ", icon: < BsFillPersonBadgeFill style={iconstyle} ></BsFillPersonBadgeFill>, ...tabProps(1) },
-    { label: "نمونه کارها ", icon: < BsPersonWorkspace style={iconstyle} ></BsPersonWorkspace>, ...tabProps(2) },
-    // { label: " گواهینامه ها ", icon: < TbMessages style={iconstyle} ></TbMessages>, ...tabProps(3) },
-    { label: "  ارتباط با من ", icon: < FaChalkboardTeacher style={iconstyle} ></FaChalkboardTeacher>, ...tabProps(4) },
-  ]
-
-  return (
-    <Box >
-      <Tabs
-        className='ramintest'
-        onClick={() => setdrawershow(false)}
-        orientation="vertical"
-        variant="scrollable"
-        value={pagenumber}
-        onChange={handleChange}
-        TabIndicatorProps={{
-          sx: {
-            backgroundColor: "red",
-            border: "3px solid red",
-            borderRadius: "40px",
-          }
-
-        }}
-      >
-        {tabsdata.map((data => (
-          <Tab
-            onClick={() => setdrawershow(false)}
+    return (
+        <Box
+            component="nav"
             sx={{
-              "&.MuiTab-root": {
-                backgroundColor: theme.palette.tabs.main,
-                borderRadius: 2,
-                my: 0.25,
-                mx: 0,
-                minHeight: 0,
-                px:0,
-                fontFamily:"vazir"
-
-              },
-              "&.Mui-selected": {
-                color: "red",
-              }
+                display: "flex",
+                flexDirection: "column",
+                gap: 1,
+                width: "100%",
             }}
-            className={tabclass}
-            label={data.label}
-            icon={data.icon}
-            iconPosition='start'
-            {...tabsdata}
-          >
-          </Tab>
-        )))}
-      </Tabs>
-
-    </Box >
-  );
+        >
+            {tabsdata.map((data, index) => {
+                const active = pagenumber === index;
+                return (
+                    <Box
+                        key={index}
+                        component="button"
+                        type="button"
+                        onClick={() => handleClick(index)}
+                        sx={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: 1.25,
+                            width: "100%",
+                            minHeight: 48,
+                            px: 1.75,
+                            py: 1.25,
+                            borderRadius: 2,
+                            cursor: "pointer",
+                            border: "1px solid",
+                            borderColor: active ? "transparent" : "rgba(255,255,255,0.12)",
+                            color: active ? "#fff" : "text.primary",
+                            background: active
+                                ? GRADIENT
+                                : "rgba(255,255,255,0.05)",
+                            backdropFilter: active ? "none" : "blur(8px)",
+                            boxShadow: active
+                                ? "0 10px 24px rgba(124,92,255,0.35)"
+                                : "none",
+                            fontFamily: "vazir",
+                            fontWeight: 600,
+                            fontSize: 14,
+                            textAlign: "right",
+                            transition: "all .25s ease",
+                            "&:hover": {
+                                color: "#fff",
+                                background: active
+                                    ? GRADIENT
+                                    : "rgba(124,92,255,0.18)",
+                                borderColor: active
+                                    ? "transparent"
+                                    : "primary.main",
+                                transform: "translateY(-2px)",
+                            },
+                            "& svg": { fontSize: 20 },
+                        }}
+                    >
+                        <Box
+                            component="span"
+                            sx={{
+                                display: "inline-flex",
+                                color: active ? "#fff" : "primary.light",
+                            }}
+                        >
+                            {data.icon}
+                        </Box>
+                        <Typography
+                            component="span"
+                            sx={{ fontWeight: 600, fontSize: 14 }}
+                        >
+                            {data.label}
+                        </Typography>
+                    </Box>
+                );
+            })}
+        </Box>
+    );
 }
 
 export default Sidebartabs;
-
-
-{/* <div id="one" class="corner"></div>
-<div id="two" class="corner"></div> */}
