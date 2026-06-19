@@ -1,14 +1,9 @@
 import restaurant from '../../assets/restaurant.jpg';
 import words from '../../assets/words.png';
 import contacts from '../../assets/contacts.jpg';
-import portfolio from '../../assets/portfolio.png';
-import { AiFillAccountBook } from "react-icons/ai";
-import { MdOutlinePlayLesson } from "react-icons/md";
-import { FaChalkboardTeacher } from "react-icons/fa";
-import { BiCodeCurly, BiBookAlt } from "react-icons/bi";
+import { BiBookAlt } from "react-icons/bi";
 
 import html from '../../assets/cert/html.jpg';
-import flexbox from '../../assets/cert/flexbox.jpg';
 import es from '../../assets/cert/es.jpg';
 import js from '../../assets/cert/js.jpg';
 import sass from '../../assets/cert/sass.jpg';

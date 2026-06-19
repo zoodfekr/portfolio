@@ -2,7 +2,6 @@ import { Box, Card, Typography } from "@mui/material";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Helmet } from "react-helmet-async";
 import { useEffect, useState } from "react";
-import { GRADIENT } from "../../container/theme";
 import PageHeader from "../common/PageHeader";
 import {
     MdDevices,
