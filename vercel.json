@@ -1,3 +1,9 @@
 {
-  "framework": "nextjs"
+  "framework": "nextjs",
+  "build": {
+    "env": {
+      "NODE_ENV": "production"
+    }
+  },
+  "nodeVersion": "24.x"
 }
