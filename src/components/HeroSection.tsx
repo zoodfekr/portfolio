@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Button } from "@heroui/react";
 import {
   FaReact,
@@ -45,6 +46,15 @@ const handleScroll = (id: string) => {
 };
 
 export default function HeroSection() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
   return (
     <section
       id="hero"
@@ -112,7 +122,7 @@ export default function HeroSection() {
             <Button
               color="primary"
               size="lg"
-              className="bg-gradient-to-r from-[#7C5CFF] via-[#5B8CFF] to-[#22D3EE] shadow-[0_10px_24px_rgba(124,92,255,0.35)] text-white font-semibold px-8 py-6 text-base"
+              className="bg-gradient-to-r from-[#7C5CFF] via-[#5B8CFF] to-[#22D3EE] shadow-[0_10px_24px_rgba(124,92,255,0.35)] text-white font-semibold px-5 py-3 sm:px-8 sm:py-6 text-sm sm:text-base"
               onPress={() => handleScroll("#works")}
             >
               مشاهده نمونه‌کارها
@@ -120,7 +130,7 @@ export default function HeroSection() {
             <Button
               variant="bordered"
               size="lg"
-              className="border-white/[0.08] text-[#E8ECF4] hover:border-[#7C5CFF] hover:bg-[rgba(124,92,255,0.08)] font-semibold px-8 py-6 text-base"
+              className="border-white/[0.08] text-[#E8ECF4] hover:border-[#7C5CFF] hover:bg-[rgba(124,92,255,0.08)] font-semibold px-5 py-3 sm:px-8 sm:py-6 text-sm sm:text-base"
               onPress={() => handleScroll("#contact")}
             >
               ارتباط با من
@@ -176,15 +186,15 @@ export default function HeroSection() {
         </div>
 
         <div
-          className="hidden md:flex md:col-span-5 lg:col-span-5 justify-center"
+          className="flex md:col-span-5 lg:col-span-5 justify-center mt-8 md:mt-0"
           style={{ animation: "fadeIn .8s ease .2s both" }}
         >
-          <div className="relative w-[340px] h-[340px] flex items-center justify-center">
+          <div className="relative w-[240px] h-[240px] md:w-[340px] md:h-[340px] flex items-center justify-center">
             <div className="absolute inset-0 rounded-full border border-dashed border-white/[0.08]" style={{ animation: "spinSlow 22s linear infinite" }} />
             <div className="absolute inset-7 rounded-full border border-white/[0.08]" style={{ animation: "spinSlow 30s linear infinite reverse" }} />
 
             <div
-              className="relative w-[180px] h-[180px] rounded-full flex items-center justify-center bg-gradient-to-br from-[#7C5CFF] via-[#5B8CFF] to-[#22D3EE] shadow-[0_0_60px_rgba(124,92,255,0.45),inset_0_0_30px_rgba(255,255,255,0.15)]"
+              className="relative w-[120px] h-[120px] md:w-[180px] md:h-[180px] rounded-full flex items-center justify-center bg-gradient-to-br from-[#7C5CFF] via-[#5B8CFF] to-[#22D3EE] shadow-[0_0_60px_rgba(124,92,255,0.45),inset_0_0_30px_rgba(255,255,255,0.15)]"
               style={{ animation: "pulse 4s ease-in-out infinite" }}
             >
               <img
@@ -196,7 +206,7 @@ export default function HeroSection() {
 
             {skills.map((t, i) => {
               const angle = (i / skills.length) * Math.PI * 2 - Math.PI / 2;
-              const r = 150;
+              const r = isMobile ? 105 : 150;
               const x = Math.cos(angle) * r;
               const y = Math.sin(angle) * r;
               return (
@@ -206,13 +216,13 @@ export default function HeroSection() {
                   style={{
                     left: "50%",
                     top: "50%",
-                    marginLeft: "-26px",
-                    marginTop: "-26px",
+                    marginLeft: isMobile ? "-20px" : "-26px",
+                    marginTop: isMobile ? "-20px" : "-26px",
                     transform: `translate(${x}px, ${y}px)`,
                   }}
                 >
                   <div
-                    className="w-[52px] h-[52px] flex items-center justify-center rounded-[14px] text-[26px] border border-white/[0.08] bg-white/[0.04] backdrop-blur-[10px] shadow-[0_12px_30px_rgba(3,6,20,0.4)]"
+                    className={`${isMobile ? "w-[40px] h-[40px] text-[20px]" : "w-[52px] h-[52px] text-[26px]"} flex items-center justify-center rounded-[14px] border border-white/[0.08] bg-white/[0.04] backdrop-blur-[10px] shadow-[0_12px_30px_rgba(3,6,20,0.4)]`}
                     style={{
                       color: t.color,
                       animation: `float 6s ease-in-out ${i * 0.6}s infinite`,
